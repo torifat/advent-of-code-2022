@@ -1,10 +1,10 @@
 use std::fs::read_to_string;
 
-fn part_one(_contents: &String) -> u32 {
+fn part_one(_contents: &str) -> u32 {
     1
 }
 
-fn part_two(_contents: &String) -> u32 {
+fn part_two(_contents: &str) -> u32 {
     2
 }
 
