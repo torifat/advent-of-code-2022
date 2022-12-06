@@ -1,23 +1,42 @@
+use itertools::Itertools;
 use std::{collections::HashSet, fs::read_to_string};
+
+fn priority(c: char) -> u32 {
+    match c {
+        'a'..='z' => c as u32 - 96, //('a' as u32 - 1)
+        'A'..='Z' => c as u32 - 38,
+        _ => 0,
+    }
+}
 
 fn part_one(contents: &str) -> u32 {
     contents
         .lines()
         .map(|l| l.split_at(l.len() / 2))
         .flat_map(|(l, r)| {
-            let set: HashSet<char> = l.chars().collect();
-            r.chars().find(|c| set.contains(c))
+            l.chars()
+                .collect::<HashSet<char>>()
+                .intersection(&r.chars().collect())
+                .cloned()
+                .collect::<Vec<char>>()
         })
-        .map(|c| match c {
-            'a'..='z' => c as u32 - 96, //('a' as u32 - 1)
-            'A'..='Z' => c as u32 - 38,
-            _ => 0,
-        })
+        .map(priority)
         .sum()
 }
 
-fn part_two(_contents: &str) -> u32 {
-    70
+fn part_two(contents: &str) -> u32 {
+    contents
+        .lines()
+        .map(|l| l.chars().collect::<HashSet<char>>())
+        .chunks(3)
+        .into_iter()
+        .flat_map(|chunks| {
+            chunks
+                .reduce(|a, b| a.intersection(&b).cloned().collect())
+                .expect("There will always be a common char")
+        })
+        .map(priority)
+        .sum()
 }
 
 fn main() {

@@ -4,7 +4,7 @@ use std::fs::read_to_string;
 fn part_one(contents: &str) -> u32 {
     contents
         .lines()
-        .flat_map(|s| s.split_whitespace().tuples::<(&str, &str)>())
+        .flat_map(|s| s.split_whitespace().tuples())
         .map(|c| {
             /*
              * A for Rock, B for Paper, and C for Scissors
@@ -33,7 +33,7 @@ fn part_one(contents: &str) -> u32 {
 fn part_two(contents: &str) -> u32 {
     contents
         .lines()
-        .flat_map(|s| s.split_whitespace().tuples::<(&str, &str)>())
+        .flat_map(|s| s.split_whitespace().tuples())
         .map(|c| {
             // X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win
             match c {

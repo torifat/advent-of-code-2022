@@ -1,3 +1,4 @@
+use std::collections::BinaryHeap;
 use std::fs::read_to_string;
 use std::str::FromStr;
 
@@ -18,7 +19,7 @@ fn part_one(contents: &str) -> u32 {
 }
 
 fn part_two(contents: &str) -> u32 {
-    let mut numbers = Vec::with_capacity(3);
+    let mut numbers = BinaryHeap::new();
 
     contents.lines().map(u32::from_str).fold(0u32, |acc, x| {
         if let Ok(y) = x {
@@ -26,20 +27,12 @@ fn part_two(contents: &str) -> u32 {
         }
         // NOTE: Added an extra new line at the end of input to simply breaking condition
         else {
-            if numbers.len() < 3 {
-                numbers.push(acc);
-            } else {
-                let min = *numbers.iter().min().unwrap();
-                if acc > min {
-                    numbers.retain(|x| *x != min);
-                    numbers.push(acc);
-                }
-            }
+            numbers.push(acc);
             0
         }
     });
 
-    numbers.iter().sum()
+    (0..3).fold(0, |acc, _| acc + numbers.pop().unwrap())
 }
 
 fn main() {
